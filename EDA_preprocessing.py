@@ -41,14 +41,15 @@ def labels_map(label):
 def do_normalization(x_train):
     cat_features = ['protocol_type','service','flag','land','logged_in','is_host_login','is_guest_login']
     cols=list(x_train.axes[1].values)
-    cont_features=list(set(cols).difference(set(cat_features)))
+    #categorial features have integer type(after labelling) and must be normalized
+    cont_features=cols#list(set(cols).difference(set(cat_features)))
     scaler = MinMaxScaler()
     x_train.loc[:,cont_features]=scaler.fit_transform(x_train.loc[:,cont_features])
     return x_train
 ##############################################################################
 def preprocess_data(train_data_path, test_data_path, header_file, correspondence, save_to_file=False,
                     x_train_path="./data/train_data", y_train_path="./data/train_labels",
-                    x_test_path="./data/test_data", y_train_path="./data/test_labels"):
+                    x_test_path="./data/test_data", y_test_path="./data/test_labels"):
     dct = dict()
 
     with open(correspondence, "r") as f:
