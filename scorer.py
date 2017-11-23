@@ -1,4 +1,5 @@
 from sklearn.metrics import make_scorer, f1_score
+import numpy as np
 
 _f1 = make_scorer(f1_score, 'macro')
 
@@ -6,7 +7,7 @@ def classification_report(y_true, y_pred, labels=None, target_names=None,
                           sample_weight=None, digits=2):
   
     if labels is None:
-        labels = unique_labels(y_true, y_pred)
+        labels = np.unique(y_true)
     else:
         labels = np.asarray(labels)
 
