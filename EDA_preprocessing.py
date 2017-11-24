@@ -47,7 +47,7 @@ def do_normalization(x_train):
     x_train.loc[:,cont_features]=scaler.fit_transform(x_train.loc[:,cont_features])
     return x_train
 ##############################################################################
-def preprocess_data(train_data_path, test_data_path, header_file, correspondence, save_to_file=False,
+def preprocess_data(train_data_path, test_data_path, header_file, correspondence, save_to_file=False, do_normalization=False,
                     x_train_path="./data/train_data", y_train_path="./data/train_labels",
                     x_test_path="./data/test_data", y_test_path="./data/test_labels"):
     dct = dict()
@@ -93,7 +93,7 @@ def preprocess_data(train_data_path, test_data_path, header_file, correspondence
     cols=list(df.axes[1].values)
     x_numerical=df.loc[:,list(set(cols).difference(set(categorial_features)))]
 
-    # We should remove unecessery information
+    # We should remove unneccessary information
     corr_column_names = ['dst_host_srv_serror_rate', 'srv_serror_rate', 'dst_host_serror_rate']
     df.drop(corr_column_names, axis=1, inplace=True)
     # Labeling categorial features
@@ -112,8 +112,9 @@ def preprocess_data(train_data_path, test_data_path, header_file, correspondence
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.23, random_state=42)
 
-    X_train = do_normalization(X_train)
-    X_test = do_normalization(X_test)
+    if do_normalization:
+        X_train = do_normalization(X_train)
+        X_test = do_normalization(X_test)
 
     rf.fit(X_train, y_train)
     # Save data
@@ -123,4 +124,4 @@ def preprocess_data(train_data_path, test_data_path, header_file, correspondence
         X_test.to_csv(x_test_path)
         y_test.to_csv(y_test_path)
     else:
-        return X_train, y_train, X_test, y_test
+        return X_train, y_train, X_test, y_test, [(df.columns.get_loc(name) - 1) for name in categorial_features]
