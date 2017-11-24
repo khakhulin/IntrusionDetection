@@ -1,4 +1,5 @@
 from sklearn.metrics import make_scorer, f1_score
+from sklearn.metrics import precision_recall_fscore_support
 import numpy as np
 
 _f1 = make_scorer(f1_score, 'macro')
