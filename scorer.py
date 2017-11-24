@@ -45,7 +45,7 @@ def classification_report(y_true, y_pred, labels=None, target_names=None,
     report += row_fmt.format(last_line_heading,
                              np.average(p, weights=s),
                              np.average(r, weights=s),
-                             _f1(y_true, y_pred),
+                             f1_score(y_true, y_pred,  labels=[0,1,2,3,4], average='macro'),
                              np.sum(s),
                              width=width, digits=digits)
 
