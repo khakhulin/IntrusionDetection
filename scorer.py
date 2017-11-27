@@ -1,4 +1,6 @@
 from sklearn.metrics import make_scorer, f1_score
+from sklearn.metrics import precision_recall_fscore_support
+import numpy as np
 
 _f1 = make_scorer(f1_score, 'macro')
 
@@ -6,7 +8,7 @@ def classification_report(y_true, y_pred, labels=None, target_names=None,
                           sample_weight=None, digits=2):
   
     if labels is None:
-        labels = unique_labels(y_true, y_pred)
+        labels = np.unique(y_true)
     else:
         labels = np.asarray(labels)
 
@@ -44,7 +46,7 @@ def classification_report(y_true, y_pred, labels=None, target_names=None,
     report += row_fmt.format(last_line_heading,
                              np.average(p, weights=s),
                              np.average(r, weights=s),
-                             _f1(y_true, y_pred),
+                             f1_score(y_true, y_pred,  labels=[0,1,2,3,4], average='macro'),
                              np.sum(s),
                              width=width, digits=digits)
 
