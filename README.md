@@ -32,7 +32,7 @@ We repeated the results of the studies presented in previous years and add some 
 
 
 
-| Алгоритм       | F1-macro |
+| Algorithm       | F1-macro |
 |----------------|----------|
 | Naive Bayes    | 0.3781   |
 | SVM            | 0.6754   |
